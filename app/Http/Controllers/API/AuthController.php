@@ -20,7 +20,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except('register');
+        $this->middleware('auth:sanctum')->except(['register', 'login']);
     }
 
     /**
@@ -39,9 +39,10 @@ class AuthController extends Controller
         $user->save();
 
         return response()->json([
-            'data' => [],
+            'data' => [
+                'user' => $user,
+            ],
             'message' => 'Success registering user',
-            'code' => 201,
         ], 201);
     }
 
@@ -64,10 +65,10 @@ class AuthController extends Controller
 
         return response()->json([
             'data' => [
-                'token' => $user->createToken($request->device_name)->plainTextToken,
+                'user' => $user,
+                'access_token' => $user->createToken($request->device_name)->plainTextToken,
             ],
             'message' => 'Success logging-in user',
-            'code' => 200,
         ]);
     }
 
@@ -80,12 +81,11 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $tokenId = explode('|', $request->bearerToken());
-        $request->user('auth:santum')->tokens()->where('id', $tokenId)->delete();
+        $request->user()->tokens()->where('id', $tokenId)->delete();
 
         return response()->json([
             'data' => [],
             'message' => 'Success logout user from current device',
-            'code' => 200,
         ]);
     }
 
@@ -97,12 +97,11 @@ class AuthController extends Controller
      */
     public function logout_all(Request $request)
     {
-        $request->user('auth:santum')->tokens()->delete();
+        $request->user()->tokens()->delete();
 
         return response()->json([
             'data' => [],
             'message' => 'Success logout user from all device',
-            'code' => 200,
         ]);
     }
 }
