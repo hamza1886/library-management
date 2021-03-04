@@ -37,9 +37,10 @@ class BookController extends Controller
         $books = (new Book)->paginate(5);
 
         return response()->json([
-            'data' => $books,
+            'data' => [
+                'book' => $books,
+            ],
             'message' => 'Success getting books',
-            'code' => 200,
         ]);
     }
 
@@ -58,9 +59,10 @@ class BookController extends Controller
         $book->save();
 
         return response()->json([
-            'data' => $book,
+            'data' => [
+                'book' => $book,
+            ],
             'message' => 'Success adding book',
-            'code' => 200,
         ]);
     }
 
@@ -73,9 +75,10 @@ class BookController extends Controller
     public function show(Book $book)
     {
         return response()->json([
-            'data' => $book,
+            'data' => [
+                'book' => $book,
+            ],
             'message' => 'Success getting book',
-            'code' => 200,
         ]);
     }
 
@@ -94,9 +97,10 @@ class BookController extends Controller
         $book->update();
 
         return response()->json([
-            'data' => $book,
+            'data' => [
+                'book' => $book,
+            ],
             'message' => 'Success updating book',
-            'code' => 200,
         ]);
     }
 
@@ -115,7 +119,6 @@ class BookController extends Controller
         return response()->json([
             'data' => [],
             'message' => 'Success deleting book',
-            'code' => 200,
         ]);
     }
 
@@ -132,7 +135,6 @@ class BookController extends Controller
             return response()->json([
                 'data' => [],
                 'message' => 'The book is not available',
-                'code' => 200,
             ]);
         }
 
@@ -143,7 +145,6 @@ class BookController extends Controller
         return response()->json([
             'data' => [],
             'message' => 'Success checking-out book',
-            'code' => 200,
         ]);
     }
 
@@ -160,7 +161,6 @@ class BookController extends Controller
             return response()->json([
                 'data' => [],
                 'message' => 'The book is not checked-out',
-                'code' => 200,
             ]);
         }
 
@@ -171,7 +171,6 @@ class BookController extends Controller
         return response()->json([
             'data' => [],
             'message' => 'Success checking-in book',
-            'code' => 200,
         ]);
     }
 }
