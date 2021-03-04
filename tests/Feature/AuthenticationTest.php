@@ -13,18 +13,6 @@ class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function testSiteIsUp()
-    {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
-    }
-
     public function testRequiredFieldsForRegistration()
     {
         $response = $this->json('POST', 'api/register', [], ['Accept' => 'application/json']);
@@ -102,6 +90,24 @@ class AuthenticationTest extends TestCase
             ]);
     }
 
+    public function testLoginWithWrongCredential()
+    {
+        $userData = [
+            'email' => 'doe@example.com',
+            'password' => 'demo12345',
+            'device_name' => 'Home Computer',
+        ];
+
+        $response = $this->json('POST', 'api/login', $userData, ['Accept' => 'application/json']);
+        $response->assertStatus(422)
+            ->assertJson([
+                'message' => 'The given data was invalid.',
+                'errors' => [
+                    'email' => ['The provided credentials are incorrect.'],
+                ]
+            ]);
+    }
+
     public function testSuccessfulLogin()
     {
         Sanctum::actingAs(
@@ -141,41 +147,7 @@ class AuthenticationTest extends TestCase
 
     public function testSuccessfulLogout()
     {
-        Sanctum::actingAs(
-            User::factory()->create([
-                'email' => 'sample@test.com',
-                'password' => Hash::make('sample123'),
-            ]),
-            ['*'],
-        );
-
-        $loginData = [
-            'email' => 'sample@test.com',
-            'password' => 'sample123',
-            'device_name' => 'Home Computer',
-        ];
-
-        $response = $this->json('POST', 'api/login', $loginData, ['Accept' => 'application/json']);
-        $response->assertStatus(200)
-            ->assertJsonStructure([
-                'data' => [
-                    'user' => [
-                        'id',
-                        'name',
-                        'email',
-                        'email_verified_at',
-                        'date_of_birth',
-                        'created_at',
-                        'updated_at',
-                    ],
-                    'access_token',
-                ],
-                'message',
-            ]);
-
-        $this->assertAuthenticated();
-
-        $access_token = (json_decode($response->content()))->data->access_token;
+        ['user' => $user, 'access_token' => $access_token] = $this->loginUser();
 
         $response = $this->json('POST', 'api/logout', [], ['Accept' => 'application/json', 'Authorization' => 'Bearer ' . $access_token]);
         $response->assertStatus(200)
