@@ -21,7 +21,7 @@ class BookController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api')->except([
+        $this->middleware('auth:sanctum')->except([
             'index',
             'show'
         ]);
