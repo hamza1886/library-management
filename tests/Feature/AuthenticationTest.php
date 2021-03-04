@@ -32,8 +32,8 @@ class AuthenticationTest extends TestCase
     {
         $userData = [
             'name' => 'John Doe',
-            'email' => 'doe@example.com',
-            'password' => 'demo12345',
+            'email' => 'john@example.com',
+            'password' => 'Demo12345',
             'date_of_birth' => '1970-01-01',
         ];
 
@@ -51,9 +51,9 @@ class AuthenticationTest extends TestCase
     {
         $userData = [
             'name' => 'John Doe',
-            'email' => 'doe@example.com',
-            'password' => 'demo12345',
-            'password_confirmation' => 'demo12345',
+            'email' => 'john@example.com',
+            'password' => 'Demo12345',
+            'password_confirmation' => 'Demo12345',
             'date_of_birth' => '1970-01-01',
         ];
 
@@ -91,8 +91,8 @@ class AuthenticationTest extends TestCase
     public function testLoginWithWrongCredential()
     {
         $userData = [
-            'email' => 'doe@example.com',
-            'password' => 'demo12345',
+            'email' => 'john@example.com',
+            'password' => 'Demo12345',
             'device_name' => 'Home Computer',
         ];
 

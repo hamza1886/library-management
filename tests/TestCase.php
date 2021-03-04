@@ -14,15 +14,15 @@ abstract class TestCase extends BaseTestCase
     public function loginUser()
     {
         $user = User::factory()->create([
-            'email' => 'sample@test.com',
-            'password' => Hash::make('sample123'),
+            'email' => 'john@example.com',
+            'password' => Hash::make('Demo12345'),
         ]);
 
         Sanctum::actingAs($user, ['*']);
 
         $loginData = [
-            'email' => 'sample@test.com',
-            'password' => 'sample123',
+            'email' => 'john@example.com',
+            'password' => 'Demo12345',
             'device_name' => 'Home Computer',
         ];
 
