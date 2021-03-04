@@ -49,8 +49,6 @@ class AuthenticationTest extends TestCase
 
     public function testSuccessfulRegistration()
     {
-        RefreshDatabase::class;
-
         $userData = [
             'name' => 'John Doe',
             'email' => 'doe@example.com',
