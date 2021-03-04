@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ValidPassword;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterUserRequest extends FormRequest
@@ -26,7 +27,7 @@ class RegisterUserRequest extends FormRequest
         return [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed',
+            'password' => ['required', 'confirmed', new ValidPassword()],
             'date_of_birth' => 'required|date',
         ];
     }
