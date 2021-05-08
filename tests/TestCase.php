@@ -32,6 +32,7 @@ abstract class TestCase extends BaseTestCase
 
         return [
             'user' => $user,
+            'response' => $response,
             'access_token' => $access_token,
         ];
     }

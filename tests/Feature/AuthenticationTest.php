@@ -108,21 +108,8 @@ class AuthenticationTest extends TestCase
 
     public function testSuccessfulLogin()
     {
-        Sanctum::actingAs(
-            User::factory()->create([
-                'email' => 'sample@test.com',
-                'password' => Hash::make('sample123'),
-            ]),
-            ['*'],
-        );
+        ['user' => $user, 'response' => $response, 'access_token' => $access_token] = $this->loginUser();
 
-        $loginData = [
-            'email' => 'sample@test.com',
-            'password' => 'sample123',
-            'device_name' => 'Home Computer',
-        ];
-
-        $response = $this->json('POST', 'api/login', $loginData, ['Accept' => 'application/json']);
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'data' => [
@@ -145,7 +132,7 @@ class AuthenticationTest extends TestCase
 
     public function testSuccessfulLogout()
     {
-        ['user' => $user, 'access_token' => $access_token] = $this->loginUser();
+        ['user' => $user, 'response' => $response, 'access_token' => $access_token] = $this->loginUser();
 
         $response = $this->json('POST', 'api/logout', [], ['Accept' => 'application/json', 'Authorization' => 'Bearer ' . $access_token]);
         $response->assertStatus(200)
