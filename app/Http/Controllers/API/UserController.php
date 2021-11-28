@@ -33,7 +33,7 @@ class UserController extends Controller
             'data' => [
                 'user' => $user,
             ],
-            'message' => 'Success logout user from all device',
+            'message' => 'Success fetching users',
         ]);
     }
 }

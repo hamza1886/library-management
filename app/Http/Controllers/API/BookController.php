@@ -23,7 +23,9 @@ class BookController extends Controller
     {
         $this->middleware('auth:sanctum')->except([
             'index',
-            'show'
+            'show',
+            'checkout',
+            'checkin'
         ]);
     }
 
@@ -34,7 +36,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = (new Book)->paginate(5);
+        $books = (new Book)->paginate(10);
 
         return response()->json([
             'data' => [
@@ -54,6 +56,7 @@ class BookController extends Controller
     {
         $book = new Book();
         $book->title = $request->title;
+        $book->author = $request->author;
         $book->isbn = $request->isbn;
         $book->published_at = $request->published_at;
         $book->save();
@@ -92,6 +95,7 @@ class BookController extends Controller
     public function update(UpdateBookRequest $request, Book $book)
     {
         $book->title = $request->title;
+        $book->author = $request->author;
         $book->isbn = $request->isbn;
         $book->published_at = $request->published_at;
         $book->update();
@@ -138,7 +142,9 @@ class BookController extends Controller
             ]);
         }
 
-        $user = Auth::user();
+        // TODO: uncomment after login/register is available
+        // $user = Auth::user();
+        $user = User::find(1);
 
         Book::checkout($book, $user);
 
@@ -164,7 +170,9 @@ class BookController extends Controller
             ]);
         }
 
-        $user = Auth::user();
+        // TODO: uncomment after login/register is available
+        // $user = Auth::user();
+        $user = User::find(1);
 
         Book::checkin($book, $user);
 

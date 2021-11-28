@@ -32,12 +32,22 @@ class Book extends Model
     ];
 
     /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
     protected $casts = [
-        'published_at' => 'date',
+        'published_at' => 'date:Y-m-d',
     ];
 
     /**

@@ -23,6 +23,7 @@ class BookFactory extends Factory
     {
         return [
             'title' => $this->faker->title,
+            'author' => $this->faker->firstName . ' ' . $this->faker->lastName,
             'isbn' => $this->faker->isbn10,
             'published_at' => $this->faker->date(),
             'status' => $this->faker->randomElement(array_keys(Book::STATUS)),
